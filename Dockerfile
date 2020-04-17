@@ -1,9 +1,11 @@
 FROM ubuntu:latest
 
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-missing \
     default-jdk \
     bzip2 \
+    curl \
+    ca-certificates \
     gcc \
     git \
     emacs \
@@ -11,12 +13,13 @@ RUN apt-get update \
     libbz2-dev \
     locales \
     nano \
-    python3 \
     r-base \
     r-base-dev\
     unzip \
+    wget \
     vim \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/
 
@@ -31,6 +34,18 @@ ADD https://github.com/samtools/samtools/releases/download/1.6/samtools-1.6.tar.
 RUN bunzip2 samtools-1.6.tar.bz2
 RUN tar xf samtools-1.6.tar
 RUN cd samtools-1.6 && ./configure --without-curses --disable-bz2 --disable-lzma && make && make install
+
+# Install Miniconda3
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV PATH /opt/conda/bin:$PATH
+
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc
 
 ENV PATH=/opt:/opt/scripts:/opt/scripts/common:$PATH
 
