@@ -1,5 +1,3 @@
 # Starter Image For Researchers
 
-This is a fairly large image with tools for researchers to use in place of a traditional HPC
-environment. 
-
+The original idea behind this image is that some researchers will want to work inside a container just as they would work inside a session in a traditional High Perfomance Computing environment. Best practices with containers suggest that smaller images are better for speed, security, and maintianability. To customize your own image take a look at the Dockerfile and consider removing what you don't need to create your own image. This may take some trial and error, but the end result will be an increased knowledge of how containers are built and a contaienr customized to the needs of your research.

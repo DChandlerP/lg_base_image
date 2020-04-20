@@ -1,24 +1,25 @@
 import unittest
 import os
 
-# Don't want to test version too specifically. Just testing the length and printing results
+# Interested only that the software is present. Version isn't important.
 def versionOutputLen(input):
     cmd = '{0} --version'.format(input)
     string = os.popen(cmd).read().strip('\n')
     if input != 'vim':
-        #vim's output is 1K+ lines!!
+        # vim's output is too verbose. Versions will show when tests are run.
         print(string)
     return len(string.split(' '))
 
+# If any test fails the build fails due to an exit code unittest provides.
 class TestVersions(unittest.TestCase):
     def test_Conda(self):
         self.assertEqual(versionOutputLen('conda'), 2)
 
-    def test_Git(self):
-        self.assertEqual(versionOutputLen('git'), 3)
-
     def test_Emacs(self):
         self.assertEqual(versionOutputLen('emacs'), 39)
+
+    def test_Git(self):
+        self.assertEqual(versionOutputLen('git'), 3)
 
     def test_java(self):
         self.assertEqual(versionOutputLen('java'), 15)

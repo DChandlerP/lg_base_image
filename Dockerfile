@@ -49,8 +49,12 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
 
+WORKDIR /
 COPY test.py /
-RUN cd / && python -m unittest test.py
+COPY Dockerfile /
+COPY README.md /
+RUN python -m unittest test.py
 
+# use LSF_DOCKER_PRESERVE_ENVIRONMENT=false before bsub if you want to presrve path in compute1
 ENV PATH=/opt:/opt/scripts:/opt/scripts/common:$PATH
 
