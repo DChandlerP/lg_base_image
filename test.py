@@ -2,10 +2,12 @@ import unittest
 import os
 
 # Don't want to test version too specifically. Just testing the length and printing results
-def versionOutputLen(string):
-    cmd = '{0} --version'.format(string)
+def versionOutputLen(input):
+    cmd = '{0} --version'.format(input)
     string = os.popen(cmd).read().strip('\n')
-    print(string)
+    if input != 'vim':
+        #vim's output is 1K+ lines!!
+        print(string)
     return len(string.split(' '))
 
 class TestVersions(unittest.TestCase):
