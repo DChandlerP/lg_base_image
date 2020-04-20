@@ -1,4 +1,5 @@
-# Large Base Image
+# Starter Image For Researchers
 
-There's some talk at work about whether researchers need a large base image to begin their work from. I was just playing
-around with what I imagine we'd need in that base image. 
+This is a fairly large image with tools for researchers to use in place of a traditional HPC
+environment. 
+
