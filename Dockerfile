@@ -1,5 +1,6 @@
 FROM ubuntu:latest
 
+# To customize, try removing packages below not needed for your research.
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-missing \
     default-jdk \
@@ -41,6 +42,7 @@ RUN rm samtools-1.6.tar
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/conda/bin:$PATH
 
+# Install Miniconda3
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
@@ -53,6 +55,8 @@ WORKDIR /
 COPY test.py /
 COPY Dockerfile /
 COPY README.md /
+
+# Checks if JDK 11, vim, python, R, emacs, nano, samtools, and conda installed correctly.
 RUN python -m unittest test.py
 
 # use LSF_DOCKER_PRESERVE_ENVIRONMENT=false before bsub if you want to presrve path in compute1
