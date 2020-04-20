@@ -28,12 +28,14 @@ ADD https://github.com/lh3/bwa/archive/v0.7.17.zip .
 RUN unzip v0.7.17.zip
 RUN cd bwa-0.7.17/ && make
 RUN ln -s bwa-0.7.17/bwa bwa
+RUN rm v0.7.17.zip
 
 # Install Samtools
 ADD https://github.com/samtools/samtools/releases/download/1.6/samtools-1.6.tar.bz2 .
 RUN bunzip2 samtools-1.6.tar.bz2
 RUN tar xf samtools-1.6.tar
 RUN cd samtools-1.6 && ./configure --without-curses --disable-bz2 --disable-lzma && make && make install
+RUN rm samtools-1.6.tar
 
 # Install Miniconda3
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -46,6 +48,9 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
+
+COPY test.py /
+RUN cd / && python -m unittest test.py
 
 ENV PATH=/opt:/opt/scripts:/opt/scripts/common:$PATH
 
