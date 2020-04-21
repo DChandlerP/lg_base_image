@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 # To customize, try removing packages below not needed for your research.
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-missing \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     default-jdk \
     bzip2 \
     curl \
